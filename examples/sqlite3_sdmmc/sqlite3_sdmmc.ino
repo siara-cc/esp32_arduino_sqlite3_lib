@@ -4,8 +4,6 @@
     Before running please copy following files to SD Card:
     data/mdr512.db
     data/census2000names.db
-    Also increase stack size in cores/esp8266/cont.h
-    to atleast 6144 (from 4096)
 */
 #include <stdio.h>
 #include <stdlib.h>

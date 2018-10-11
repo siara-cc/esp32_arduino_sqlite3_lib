@@ -328,21 +328,23 @@ int esp32mem_FileSize(sqlite3_file *id, sqlite3_int64 *size)
 int esp32_Open( sqlite3_vfs * vfs, const char * path, sqlite3_file * file, int flags, int * outflags )
 {
 	int rc;
-	char *mode = "r";
+	char mode[5];
 	esp32_file *p = (esp32_file*) file;
 
+	strcpy(mode, "r");
 	if ( path == NULL ) return SQLITE_IOERR;
 	dbg_printf("esp32_Open: 0o %s %s\n", path, mode);
-	if( flags&SQLITE_OPEN_READONLY )  mode = "r";
+	if( flags&SQLITE_OPEN_READONLY ) 
+		strcpy(mode, "r");
 	if( flags&SQLITE_OPEN_READWRITE || flags&SQLITE_OPEN_MAIN_JOURNAL ) {
 		int result;
 		if (SQLITE_OK != esp32_Access(vfs, path, flags, &result))
 			return SQLITE_CANTOPEN;
 
 		if (result == 1)
-			mode = "r+";
+            strcpy(mode, "r+");
 		else
-			mode = "w+";
+            strcpy(mode, "w+");
 	}
 
 	dbg_printf("esp32_Open: 1o %s %s\n", path, mode);
@@ -420,7 +422,7 @@ int esp32_Write(sqlite3_file *id, const void *buffer, int amount, sqlite3_int64 
 
 	dbg_printf("esp32_Write: 1w %s %d %d %lld[%ld] \n", file->name, file->fd, amount, offset, iofst);
 	ofst = fseek(file->fd, iofst, SEEK_SET);
-	if (ofst != iofst) {
+	if (ofst != 0) {
 		return SQLITE_IOERR_SEEK;
 	}
 
@@ -437,9 +439,14 @@ int esp32_Write(sqlite3_file *id, const void *buffer, int amount, sqlite3_int64 
 int esp32_Truncate(sqlite3_file *id, sqlite3_int64 bytes)
 {
 	esp32_file *file = (esp32_file*) id;
+	//int fno = fileno(file->fd);
+	//if (fno == -1)
+	//	return SQLITE_IOERR_TRUNCATE;
+	//if (ftruncate(fno, 0))
+	//	return SQLITE_IOERR_TRUNCATE;
 
 	dbg_printf("esp32_Truncate:\n");
-	return 0 ? SQLITE_IOERR_TRUNCATE : SQLITE_OK;
+	return SQLITE_OK;
 }
 
 int esp32_Delete( sqlite3_vfs * vfs, const char * path, int syncDir )
@@ -455,6 +462,7 @@ int esp32_Delete( sqlite3_vfs * vfs, const char * path, int syncDir )
 int esp32_FileSize(sqlite3_file *id, sqlite3_int64 *size)
 {
 	esp32_file *file = (esp32_file*) id;
+	dbg_printf("esp32_FileSize: %s: ", file->name);
 	struct stat st;
 	int fno = fileno(file->fd);
 	if (fno == -1)
@@ -462,7 +470,7 @@ int esp32_FileSize(sqlite3_file *id, sqlite3_int64 *size)
 	if (fstat(fno, &st))
 		return SQLITE_IOERR_FSTAT;
     *size = st.st_size;
-	dbg_printf("esp32_FileSize: %s %u[%lld]\n", file->name, st.st_size, *size);
+	dbg_printf(" %u[%lld]\n", st.st_size, *size);
 	return SQLITE_OK;
 }
 
