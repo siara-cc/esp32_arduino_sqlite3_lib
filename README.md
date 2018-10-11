@@ -1,4 +1,4 @@
-# (Not ready yet) Sqlite3 Arduino library for ESP32
+# Sqlite3 Arduino library for ESP32
 This library enables access to SQLite database files from SPIFFS or SD Cards through ESP32 SoC.  Given below is a picture of a board that has a ready-made Micro SD slot:
 
 ![](ESP_WROOM_32_breakout.png?raw=true)
@@ -22,7 +22,7 @@ The default mount points are:
    '/spiffs' // For SPIFFS
 ```
 
-and the filenames are to be prefixed with these paths in the `sqlite3_open()` function.
+and the filenames are to be prefixed with these paths in the `sqlite3_open()` function (such as `sqlite3_open("/spiffs/my.db")`).
 
 Please see the examples for full illustration of usage for the different file systems. The sample databases given (under data folder) need to be copied to the Micro SD card root folder before the SD example can be used.  Please see the comments section of the example.
 
@@ -82,6 +82,11 @@ No dependencies except for the Arduino SDK. The Sqlite3 code is included with th
 
 * Locking is not implemented.  So it cannot be reliably used in a multi-threaded / multi-core code set, except for read-only operations.
 * As of now many features of Sqlite3 have been omitted, except for basic table and index operations.  These are expected to be made available shortly.
+* The SPI bus wiring is not yet tested.
+
+## Limitations of Flash memory
+
+Any Flash memory such as those available on SPIFFS or Micro SD cards have limitation on number of writes / erase per sector.  Usually the limitation is 10000 writes or 100000 writes (on the same sector).  Although ESP32 supports wear-levelling,  this is to be kept in mind before venturing into write-intensive database projects.  There is no limitation on reading from Flash.
 
 ## Acknowledgements
 * This library was developed based on NodeMCU module developed by [Luiz Felipe Silva](https://github.com/luizfeliperj). The documentation can be found [here](https://nodemcu.readthedocs.io/en/master/en/modules/sqlite3/).
