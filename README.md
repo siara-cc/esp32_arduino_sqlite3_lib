@@ -1,9 +1,15 @@
 # Sqlite3 Arduino library for ESP32
-This library enables access to SQLite database files from SPIFFS or SD Cards through ESP32 SoC.  Given below is a picture of a board that has a ready-made Micro SD slot:
+
+This library enables access to SQLite database files from SPIFFS or SD Cards through ESP32 SoC.  Given below is a picture of a board that has a ready-made Micro SD slot (using SDMMC 4 bit mode - see example sqlite3_sdmmc):
 
 ![](ESP_WROOM_32_breakout.png?raw=true)
 
+Also shown below is the wiring between ESP-WROOM-32 breakout board and Micro SD Shield (using SPI mode - see example sqlite3_sdspi):
+
+![](ESP32_MSD_Shield_Wiring.jpg?raw=true)
+
 ## Usage
+
 Sqlite3 C API such as `sqlite3_open` can be directly invoked. Before calling please invoke:
 
 ```c++
@@ -31,29 +37,29 @@ Please see the examples for full illustration of usage for the different file sy
 While there is no wiring needed for SPIFFS, for attaching cards to SPI bus, please use the following connections:
 
 ```c++
- * SD Card | ESP32
- *  DAT2       -
- *  DAT3       SS
- *  CMD        MOSI
- *  VSS        GND
- *  VDD        3.3V
- *  CLK        SCK
- *  DAT0       MISO
- *  DAT1       -
+ * SD Card    |  ESP32
+ *  DAT2 (1)      -
+ *  DAT3 (2)      SS (D5)
+ *  CMD  (3)      MOSI (D23)
+ *  VDD  (4)      3.3V
+ *  CLK  (5)      SCK (D19)
+ *  VSS  (6)      GND
+ *  DAT0 (7)      MISO (D18)
+ *  DAT1 (8)      -
 ```
 
 And for SD card attached to High-speed 4-bit SD_MMC port, use:
 
 ```c++
- * SD Card | ESP32
- *  DAT2      12
- *  DAT3      13
- *  CMD       15
- *  VSS       GND
- *  VDD       3.3V
- *  CLK       14
- *  DAT0      2  (add 1K pull up after flashing)
- *  DAT1      4
+ * SD Card    |  ESP32
+ *  DAT2 (1)      D12
+ *  DAT3 (2)      D13
+ *  CMD  (3)      D15
+ *  VDD  (4)      3.3V
+ *  CLK  (5)      D14
+ *  VSS  (6)      GND
+ *  DAT0 (7)      D2
+ *  DAT1 (8)      D4
 ```
 
 If you are using a board such as shown in the picture above, this wiring is ready-made.
