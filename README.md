@@ -30,7 +30,7 @@ The default mount points are:
 
 and the filenames are to be prefixed with these paths in the `sqlite3_open()` function (such as `sqlite3_open("/spiffs/my.db")`).
 
-Please see the examples for full illustration of usage for the different file systems. The sample databases given (under data folder) need to be copied to the Micro SD card root folder before the SD example can be used.  Please see the comments section of the example.
+Please see the examples for full illustration of usage for the different file systems. The sample databases given (under `examples/sqlite3_sdmmc/data` folder) need to be copied to the Micro SD card root folder before the SD examples can be used.  Please see the comments section of the example.
 
 ## Wiring
 
@@ -88,7 +88,6 @@ No dependencies except for the Arduino SDK. The Sqlite3 code is included with th
 
 * Locking is not implemented.  So it cannot be reliably used in a multi-threaded / multi-core code set, except for read-only operations.
 * As of now many features of Sqlite3 have been omitted, except for basic table and index operations.  These are expected to be made available shortly.
-* The SPI bus wiring is not yet tested.
 
 ## Limitations of Flash memory
 
