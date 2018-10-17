@@ -1,8 +1,7 @@
 #define BUILD_sqlite -DNDEBUG
-#define _HAVE_SQLITE_CONFIG_H
 #define SQLITE_CORE                          1
 #define SQLITE_NO_SYNC                       1
-#define YYSTACKDEPTH                        16
+#define YYSTACKDEPTH                        20
 #define SQLITE_TEMP_STORE                    1
 #define SQLITE_SYSTEM_MALLOC                 1
 #define SQLITE_OS_OTHER                      1
@@ -12,31 +11,6 @@
 #define SQLITE_SMALL_STACK                   1
 #define SQLITE_DISABLE_LFS                   1
 #define SQLITE_DISABLE_DIRSYNC               1
-#undef SQLITE_ENABLE_FTS3
-#undef SQLITE_ENABLE_FTS4
-#undef SQLITE_ENABLE_FTS5
-#undef SQLITE_ENABLE_GEOPOLY
-#undef SQLITE_ENABLE_ICU
-#undef SQLITE_ENABLE_JSON1
-#undef SQLITE_ENABLE_MEMSYS3
-#undef SQLITE_ENABLE_MEMSYS5
-#undef SQLITE_ENABLE_QPSG
-#undef SQLITE_ENABLE_RBU
-#undef SQLITE_ENABLE_RTREE
-#undef SQLITE_ENABLE_SESSION
-#undef SQLITE_ENABLE_SNAPSHOT
-#undef SQLITE_ENABLE_SORTER_REFERENCES
-#undef SQLITE_ENABLE_STMT_SCANSTATUS
-#undef SQLITE_ENABLE_STMTVTAB
-#undef SQLITE_ENABLE_SQLLOG
-#undef SQLITE_ENABLE_STAT2
-#undef SQLITE_ENABLE_STAT3
-#undef SQLITE_ENABLE_STAT4
-#undef SQLITE_SOUNDEX
-#undef SQLITE_USE_ALLOCA
-#undef SQLITE_USE_FCNTL_TRACE
-#undef SQLITE_USE_ZLIB
-#undef SQLITE_USE_ALLOCA
 #define SQLITE_DISABLE_FTS3_UNICODE          1
 #define SQLITE_DISABLE_FTS4_DEFERRED         1
 #define SQLITE_LIKE_DOESNT_MATCH_BLOBS       1
@@ -52,11 +26,11 @@
 #define SQLITE_POWERSAFE_OVERWRITE           1
 #define SQLITE_SORTER_PMASZ                  4
 #define SQLITE_MAX_EXPR_DEPTH                0
-#define SQLITE_OMIT_ALTERTABLE               1
-#define SQLITE_OMIT_ANALYZE                  1
-#define SQLITE_OMIT_ATTACH                   1
+#undef SQLITE_OMIT_ALTERTABLE
+#undef SQLITE_OMIT_ANALYZE
+#undef SQLITE_OMIT_ATTACH
 #define SQLITE_OMIT_AUTHORIZATION            1
-#define SQLITE_OMIT_AUTOINCREMENT            1
+#undef SQLITE_OMIT_AUTOINCREMENT
 #define SQLITE_OMIT_AUTOINIT                 1
 #define SQLITE_OMIT_AUTOMATIC_INDEX          1
 #define SQLITE_OMIT_AUTORESET                1
@@ -70,7 +44,7 @@
 #define SQLITE_OMIT_COMPILEOPTION_DIAGS      1
 #define SQLITE_OMIT_COMPOUND_SELECT          1
 #define SQLITE_OMIT_CONFLICT_CLAUSE          1
-#define SQLITE_OMIT_CTE                      1
+#undef SQLITE_OMIT_CTE
 #define SQLITE_OMIT_DECLTYPE                 1
 #define SQLITE_OMIT_DEPRECATED               1
 #undef SQLITE_OMIT_DISKIO
@@ -82,30 +56,30 @@
 #define SQLITE_OMIT_INTEGRITY_CHECK          1
 #undef SQLITE_OMIT_LIKE_OPTIMIZATION
 #define SQLITE_OMIT_LOAD_EXTENSION           1
-#define SQLITE_OMIT_LOCALTIME                1
+#undef SQLITE_OMIT_LOCALTIME
 #define SQLITE_OMIT_LOOKASIDE                1
-#define SQLITE_OMIT_MEMORYDB                 1
+#undef SQLITE_OMIT_MEMORYDB
 #undef SQLITE_OMIT_OR_OPTIMIZATION
-#define SQLITE_OMIT_PAGER_PRAGMAS            1
+#undef SQLITE_OMIT_PAGER_PRAGMAS
 #define SQLITE_OMIT_PARSER_TRACE             1
-#define SQLITE_OMIT_PRAGMA                   1
+#undef SQLITE_OMIT_PRAGMA
 #define SQLITE_OMIT_PROGRESS_CALLBACK        1
 #define SQLITE_OMIT_QUICKBALANCE             1
-#define SQLITE_OMIT_REINDEX                  1
+#undef SQLITE_OMIT_REINDEX
 #define SQLITE_OMIT_SCHEMA_PRAGMAS           1
 #define SQLITE_OMIT_SCHEMA_VERSION_PRAGMAS   1
 #define SQLITE_OMIT_SHARED_CACHE             1
 #define SQLITE_OMIT_TCL_VARIABLE             1
 #define SQLITE_OMIT_TEMPDB                   1
 #define SQLITE_OMIT_TRACE                    1
-#define SQLITE_OMIT_TRIGGER                  1
+#undef SQLITE_OMIT_TRIGGER
 #define SQLITE_OMIT_TRUNCATE_OPTIMIZATION    1
 #define SQLITE_OMIT_UTF16                    1
-#define SQLITE_OMIT_VACUUM                   1
-#define SQLITE_OMIT_VIEW                     1
-#define SQLITE_OMIT_VIRTUALTABLE             1
+#undef SQLITE_OMIT_VACUUM
+#undef SQLITE_OMIT_VIEW
+#undef SQLITE_OMIT_VIRTUALTABLE
 #define SQLITE_OMIT_WAL                      1
-#define SQLITE_OMIT_WSD                      1
+#undef SQLITE_OMIT_WSD
 #define SQLITE_OMIT_XFER_OPT                 1
 #define SQLITE_PERFORMANCE_TRACE             1
 /* #define SQLITE_OMIT_COMPLETE              1 */
