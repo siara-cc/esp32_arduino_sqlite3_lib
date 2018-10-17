@@ -592,7 +592,7 @@ int esp32_Randomness( sqlite3_vfs * vfs, int len, char * buffer )
 {
 	long rdm;
 	int sz = 1 + (len / sizeof(long));
-	char a_rdm[sz];
+	char a_rdm[sz * sizeof(long)];
 	while (sz--) {
         rdm = random(LONG_MAX - 1);
 		memcpy(a_rdm + sz * sizeof(long), &rdm, sizeof(long));
