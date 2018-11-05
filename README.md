@@ -8,6 +8,16 @@ Also shown below is the wiring between ESP-WROOM-32 breakout board and Micro SD 
 
 ![](ESP32_MSD_Shield_Wiring.jpg?raw=true)
 
+## Why Sqlite on ESP8266 is exciting?
+
+[Sqlite3](http://sqlite.org) is the favourite database of all that is portable and widely used.  Availability on ESP32 platform makes it even more portable.  Sqlite can handle terrabyte sized data, ACID compliant and guaranteed to be stable.
+
+So far IoT systems could offer SD Card access, which enabled gigabyte size files accessible, but was not fully utilized because the libraries that were available so far (such as [Arduino Extended Database Library](https://github.com/jwhiddon/EDB) or [SimpleDB](http://www.kendziorra.nl/arduino/103-simpledb-simple-flexible-and-smal)) offered only record number based or linear search and are terribly slow for key based indexed search.
+
+Sqlite stores data in [B+Tree pages](https://en.wikipedia.org/wiki/B%2B_tree) and so can locate data from millions of records using variable length keys without exerting stress on CPU or RAM.  This is demonstrated using the sample databases provided in the example sections.
+
+Even with the 500 odd kilbytes RAM available on ESP32, millions of records and gigabyte sized databases can be accessed.
+
 ## Usage
 
 Sqlite3 C API such as `sqlite3_open` can be directly invoked. Before calling please invoke:
@@ -94,14 +104,23 @@ No dependencies except for the Arduino SDK. The Sqlite3 code is included with th
 Any Flash memory such as those available on SPIFFS or Micro SD cards have limitation on number of writes / erase per sector.  Usually the limitation is 10000 writes or 100000 writes (on the same sector).  Although ESP32 supports wear-levelling,  this is to be kept in mind before venturing into write-intensive database projects.  There is no limitation on reading from Flash.
 
 ## Acknowledgements
+
 * This library was developed based on NodeMCU module developed by [Luiz Felipe Silva](https://github.com/luizfeliperj). The documentation can be found [here](https://nodemcu.readthedocs.io/en/master/en/modules/sqlite3/).
 * The census2000 and baby names databases were taken from here: http://2016.padjo.org/tutorials/sqlite-data-starterpacks/. But no license information is available.
 * The mdr512.db (Million Domain Rank database) was created with data from [The Majestic Million](https://majestic.com/reports/majestic-million) and is provided under CC 3.0 Attribution license.
 * The [ESP32 core for Arduino](https://github.com/espressif/arduino-esp32)
 * [The Arduino platform](https://arduino.cc)
 
-## Screenshot (output of Micro SD example)
+## Screenshots
+
+Output of Micro SD example:
+
 ![](output_screenshot.png?raw=true)
+
+Output of SD Card database query through WebServer example:
+
+![](output_web_1.png?raw=true)
+![](output_web_2.png?raw=true)
 
 ## Issues
 Please contact the author (Arundale Ramanathan) at arun@siara.cc if you find any problem (or create issue here).
