@@ -8,7 +8,7 @@ Also shown below is the wiring between ESP-WROOM-32 breakout board and Micro SD 
 
 ![](ESP32_MSD_Shield_Wiring.jpg?raw=true)
 
-## Why Sqlite on ESP8266 is exciting?
+## Why Sqlite on ESP32 is exciting?
 
 [Sqlite3](http://sqlite.org) is the favourite database of all that is portable and widely used.  Availability on ESP32 platform makes it even more portable.  Sqlite can handle terrabyte sized data, ACID compliant and guaranteed to be stable.
 
