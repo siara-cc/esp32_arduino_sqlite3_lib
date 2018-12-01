@@ -88,7 +88,7 @@ If you do not have the ESP32 sdk for Arduino, please see https://github.com/espr
 
 ## Dependencies / pre-requisites
 
-No dependencies except for the Arduino SDK. The Sqlite3 code is included with the library.
+No dependencies except for the Arduino and ESP32 core SDK. The Sqlite3 code is included with the library.
 
 ## Limitations on ESP32
 
@@ -97,7 +97,6 @@ No dependencies except for the Arduino SDK. The Sqlite3 code is included with th
 ## Limitations of this library
 
 * Locking is not implemented.  So it cannot be reliably used in a multi-threaded / multi-core code set, except for read-only operations.
-* As of now many features of Sqlite3 have been omitted, except for basic table and index operations.  These are expected to be made available shortly.
 
 ## Limitations of Flash memory
 
@@ -121,6 +120,10 @@ Output of SD Card database query through WebServer example:
 
 ![](output_web_1.png?raw=true)
 ![](output_web_2.png?raw=true)
+
+SQLite console:
+
+![](console_screenshot.png?raw=true)
 
 ## Issues
 Please contact the author (Arundale Ramanathan) at arun@siara.cc if you find any problem (or create issue here).
