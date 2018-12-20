@@ -125,5 +125,12 @@ SQLite console:
 
 ![](console_screenshot.png?raw=true)
 
+Output of Querying StackOverflow DB through WebServer example:
+
+![](output_web_so.png?raw=true)
+![](output_web_so_id.png?raw=true)
+![](output_web_so_name.png?raw=true)
+![](output_web_so_loc.png?raw=true)
+
 ## Issues
 Please contact the author (Arundale Ramanathan) at arun@siara.cc if you find any problem (or create issue here).
