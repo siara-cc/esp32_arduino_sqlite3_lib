@@ -700,8 +700,8 @@ static void shox96_0_2d(sqlite3_context *context, int argc, sqlite3_value **argv
 } 
 
 int registerShox96_0_2(sqlite3 *db, const char **pzErrMsg, const struct sqlite3_api_routines *pThunk) {
-  sqlite3_create_function(db, "shox96_0_2c", 1, SQLITE_UTF8, 0, shox96_0_2c, 0, 0);
-  sqlite3_create_function(db, "shox96_0_2d", 1, SQLITE_UTF8, 0, shox96_0_2d, 0, 0);
+  sqlite3_create_function(db, "shox96_0_2c", 1, SQLITE_UTF8 | SQLITE_DETERMINISTIC, 0, shox96_0_2c, 0, 0);
+  sqlite3_create_function(db, "shox96_0_2d", 1, SQLITE_UTF8 | SQLITE_DETERMINISTIC, 0, shox96_0_2d, 0, 0);
   return SQLITE_OK;
 }
 

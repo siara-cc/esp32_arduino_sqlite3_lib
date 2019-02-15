@@ -102,6 +102,36 @@ No dependencies except for the Arduino and ESP32 core SDK. The Sqlite3 code is i
 
 Any Flash memory such as those available on SPIFFS or Micro SD cards have limitation on number of writes / erase per sector.  Usually the limitation is 10000 writes or 100000 writes (on the same sector).  Although ESP32 supports wear-levelling,  this is to be kept in mind before venturing into write-intensive database projects.  There is no limitation on reading from Flash.
 
+## Compression with Shox96
+
+This implementation of `sqlite3` includes two functions `shox96_0_2c()` and `shox96_0_2d()` for compressing and decompressing text data.
+
+Shox96 is a compression technique developed for reducing storage size of Short Strings. Details of how it works can be found [here](https://github.com/siara-cc/Shox96).
+
+As of now it can work on only strings made of 'A to Z', 'a to z', '0-9', Special Characters such as &*() etc. found on keyboard, CR, LF, TAB and Space.
+
+In general it can achieve upto 40% size reduction for Short Strings.
+
+### Usage
+
+The following set of commands demonstrate how compression can be accomplished:
+
+```sql
+create table test (b1 blob);
+insert into test values (shox96_0_2c('Hello World'));
+insert into test values (shox96_0_2c('Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry''s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.'));
+select txt, length(txt) txt_len from (select shox96_0_2d(b1) txt from test);
+select length(b1) compressed_len from test;
+```
+
+See screenshots section for output.
+
+### Limitations (for Shox96)
+
+- Trying to decompress any blob that was not compressed using `shox96_0_2c()` will crash the program.
+- It does not work if the string has binary characters. that is, other than ASCII 32 to 126, CR, LF and Tab.
+- Dictionary based compression / decompression is not yet implemented.
+
 ## Acknowledgements
 
 * This library was developed based on NodeMCU module developed by [Luiz Felipe Silva](https://github.com/luizfeliperj). The documentation can be found [here](https://nodemcu.readthedocs.io/en/master/en/modules/sqlite3/).
@@ -112,20 +142,24 @@ Any Flash memory such as those available on SPIFFS or Micro SD cards have limita
 
 ## Screenshots
 
-Output of Micro SD example:
+### Output of Micro SD example
 
 ![](output_screenshot.png?raw=true)
 
-Output of SD Card database query through WebServer example:
+### Output of SD Card database query through WebServer example
 
 ![](output_web_1.png?raw=true)
 ![](output_web_2.png?raw=true)
 
-SQLite console:
+### SQLite console
 
 ![](console_screenshot.png?raw=true)
 
-Output of Querying StackOverflow DB through WebServer example:
+### Shox96 compression
+
+![](output_shox96.png?raw=true)
+
+### Output of Querying StackOverflow DB through WebServer example:
 
 ![](output_web_so.png?raw=true)
 ![](output_web_so_id.png?raw=true)
