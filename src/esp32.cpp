@@ -31,6 +31,33 @@ extern "C" {
     }
 }
 
+// From https://stackoverflow.com/questions/19758270/read-varint-from-linux-sockets#19760246
+// Encode an unsigned 64-bit varint.  Returns number of encoded bytes.
+// 'buffer' must have room for up to 10 bytes.
+int encode_unsigned_varint(uint8_t *buffer, uint64_t value) {
+	int encoded = 0;
+	do {
+		uint8_t next_byte = value & 0x7F;
+		value >>= 7;
+		if (value)
+			next_byte |= 0x80;
+		buffer[encoded++] = next_byte;
+	} while (value);
+	return encoded;
+}
+
+uint64_t decode_unsigned_varint(const uint8_t *data, int &decoded_bytes) {
+	int i = 0;
+	uint64_t decoded_value = 0;
+	int shift_amount = 0;
+	do {
+		decoded_value |= (uint64_t)(data[i] & 0x7F) << shift_amount;     
+		shift_amount += 7;
+	} while ((data[i++] & 0x80) != 0);
+	decoded_bytes = i;
+	return decoded_value;
+}
+
 int esp32_Close(sqlite3_file*);
 int esp32_Lock(sqlite3_file *, int);
 int esp32_Unlock(sqlite3_file*, int);
@@ -627,18 +654,19 @@ static void shox96_0_2c(sqlite3_context *context, int argc, sqlite3_value **argv
   long int nOut2;
   const unsigned char *inBuf;
   unsigned char *outBuf;
+	unsigned char vInt[9];
+	int vIntLen;
+
   assert( argc==1 );
   nIn = sqlite3_value_bytes(argv[0]);
   inBuf = (unsigned char *) sqlite3_value_blob(argv[0]);
   nOut = 13 + nIn + (nIn+999)/1000;
-  outBuf = (unsigned char *) malloc( nOut+4 );
-  outBuf[0] = nIn>>24 & 0xff;
-  outBuf[1] = nIn>>16 & 0xff;
-  outBuf[2] = nIn>>8 & 0xff;
-  outBuf[3] = nIn & 0xff;
-  //nOut2 = (long int)nOut;
-  nOut2 = shox96_0_2_0_compress((const char *) inBuf, nIn, (char *) &outBuf[4], NULL);
-  sqlite3_result_blob(context, outBuf, nOut2+4, free);
+  vIntLen = encode_unsigned_varint(vInt, (uint64_t) nIn);
+
+  outBuf = (unsigned char *) malloc( nOut+vIntLen );
+	memcpy(outBuf, vInt, vIntLen);
+  nOut2 = shox96_0_2_0_compress((const char *) inBuf, nIn, (char *) &outBuf[vIntLen], NULL);
+  sqlite3_result_blob(context, outBuf, nOut2+vIntLen, free);
 }
 
 static void shox96_0_2d(sqlite3_context *context, int argc, sqlite3_value **argv) {
@@ -646,17 +674,24 @@ static void shox96_0_2d(sqlite3_context *context, int argc, sqlite3_value **argv
   const unsigned char *inBuf;
   unsigned char *outBuf;
   long int nOut2;
-  
+  uint64_t inBufLen64;
+	int vIntLen;
+
   assert( argc==1 );
+
+  if (sqlite3_value_type(argv[0]) != SQLITE_BLOB)
+	  return;
+
   nIn = sqlite3_value_bytes(argv[0]);
-  if( nIn<=4 ){
+  if (nIn < 2){
     return;
   }
   inBuf = (unsigned char *) sqlite3_value_blob(argv[0]);
-  nOut = (inBuf[0]<<24) + (inBuf[1]<<16) + (inBuf[2]<<8) + inBuf[3];
+  inBufLen64 = decode_unsigned_varint(inBuf, vIntLen);
+	nOut = (unsigned int) inBufLen64;
   outBuf = (unsigned char *) malloc( nOut );
   //nOut2 = (long int)nOut;
-  nOut2 = shox96_0_2_0_decompress((const char *) &inBuf[4], nIn - 4, (char *) outBuf, NULL);
+  nOut2 = shox96_0_2_0_decompress((const char *) (inBuf + vIntLen), nIn - vIntLen, (char *) outBuf, NULL);
   //if( rc!=Z_OK ){
   //  free(outBuf);
   //}else{
