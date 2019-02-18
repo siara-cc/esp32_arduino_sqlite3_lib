@@ -167,4 +167,5 @@ See screenshots section for output.
 ![](output_web_so_loc.png?raw=true)
 
 ## Issues
-Please contact the author (Arundale Ramanathan) at arun@siara.cc if you find any problem (or create issue here).
+
+Please contact the author or create issue here if you face problems.
