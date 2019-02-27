@@ -16,26 +16,15 @@
  * @author Arundale R.
  *
  */
-#ifndef shox96_0_2_0
-#define shox96_0_2_0
+#ifndef shox96_0_2
+#define shox96_0_2
 
-// Compressor / Decompressor context is used when
-// several blocks in a file are coded
-// It is passed as null for coding a single string
-typedef struct {
-  char term_rem_bits;
-  char state;
-  char is_all_upper;
-} C_CONTEXT0_2;
+struct lnk_lst {
+  char *data;
+  struct lnk_lst *previous;
+};
 
-typedef struct {
-  char dstate;
-  char bit_no;
-  char is_all_upper;
-  char remaining_byte_count;
-} D_CONTEXT0_2;
-
-extern long shox96_0_2_0_compress(const char *in, long len, char *out, C_CONTEXT0_2 *c_ctx);
-extern long shox96_0_2_0_decompress(const char *in, long len, char *out, D_CONTEXT0_2 *d_ctx);
+extern int shox96_0_2_compress(const char *in, int len, char *out, struct lnk_lst *prev_lines);
+extern int shox96_0_2_decompress(const char *in, int len, char *out, struct lnk_lst *prev_lines);
 #endif
 

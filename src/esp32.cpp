@@ -17,7 +17,7 @@
 #include <esp_spi_flash.h>
 #include <sys/stat.h>
 
-#include "shox96_0_2_0.h"
+#include "shox96_0_2.h"
 
 #undef dbg_printf
 //#define dbg_printf(...) Serial.printf(__VA_ARGS__)
@@ -665,7 +665,7 @@ static void shox96_0_2c(sqlite3_context *context, int argc, sqlite3_value **argv
 
   outBuf = (unsigned char *) malloc( nOut+vIntLen );
 	memcpy(outBuf, vInt, vIntLen);
-  nOut2 = shox96_0_2_0_compress((const char *) inBuf, nIn, (char *) &outBuf[vIntLen], NULL);
+  nOut2 = shox96_0_2_compress((const char *) inBuf, nIn, (char *) &outBuf[vIntLen], NULL);
   sqlite3_result_blob(context, outBuf, nOut2+vIntLen, free);
 }
 
@@ -691,7 +691,7 @@ static void shox96_0_2d(sqlite3_context *context, int argc, sqlite3_value **argv
 	nOut = (unsigned int) inBufLen64;
   outBuf = (unsigned char *) malloc( nOut );
   //nOut2 = (long int)nOut;
-  nOut2 = shox96_0_2_0_decompress((const char *) (inBuf + vIntLen), nIn - vIntLen, (char *) outBuf, NULL);
+  nOut2 = shox96_0_2_decompress((const char *) (inBuf + vIntLen), nIn - vIntLen, (char *) outBuf, NULL);
   //if( rc!=Z_OK ){
   //  free(outBuf);
   //}else{
