@@ -11,6 +11,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
+#include <unistd.h>
 #include <time.h>
 #include <sqlite3.h>
 #include <Arduino.h>
@@ -509,7 +510,7 @@ int esp32_Sync(sqlite3_file *id, int flags)
 
 	int rc = fflush( file->fd );
 	fsync(fileno(file->fd));
-	dbg_printf("esp32_Sync: %d\n", rc);
+	dbg_printf("esp32_Sync( %s: ): %d \n",file->name, rc);
 
 	return rc ? SQLITE_IOERR_FSYNC : SQLITE_OK;
 }
