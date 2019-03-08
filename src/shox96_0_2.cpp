@@ -36,7 +36,7 @@ enum {SHX_STATE_1 = 1, SHX_STATE_2};
 
 byte to_match_repeats_earlier = 1;
 byte to_match_repeats_within = 1;
-#define USE_64K_LOOKUP 1
+#define USE_64K_LOOKUP 0
 #if USE_64K_LOOKUP == 1
 byte lookup[65536];
 #endif
