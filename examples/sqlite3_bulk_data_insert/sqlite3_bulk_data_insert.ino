@@ -15,6 +15,7 @@
 #include <SPI.h>
 #include <FS.h>
 #include "SD_MMC.h"
+#include "SPIFFS.h"
 
 char *dat = NULL;
 void block_heap(int times) {
@@ -106,9 +107,9 @@ void displayPrompt(const char *title) {
 
 void displayFreeHeap() {
    Serial.printf("\nHeap size: %d\n", ESP.getHeapSize());
-   Serial.printf("Free Heap: %d\n", esp_get_free_heap_size());
-   Serial.printf("Min Free Heap: %d\n", esp_get_minimum_free_heap_size());
-   Serial.printf("Max Alloc Heap: %d\n", ESP.getMaxAllocHeap());
+   Serial.printf("Free Heap: %d\n", heap_caps_get_free_size(MALLOC_CAP_8BIT));
+   Serial.printf("Min Free Heap: %d\n", heap_caps_get_minimum_free_size(MALLOC_CAP_8BIT));
+   Serial.printf("Max Alloc Heap: %d\n", heap_caps_get_largest_free_block(MALLOC_CAP_8BIT));
 }
 
 char *random_strings[] = {"Hello world", "Have a nice day", "Testing memory problems", "This should work", "ESP32 has 512k RAM", "ESP8266 has only 36k user RAM", 
@@ -121,6 +122,10 @@ int rc;
 
 void setup() {
    Serial.begin(115200);
+   if (!SPIFFS.begin(true)) {
+     Serial.println(F("Failed to mount file Serial"));
+     return;
+   }
 
    randomSeed(analogRead(0));
 
@@ -139,7 +144,7 @@ void setup() {
 void loop() {
 
    // Open database 1
-   if (openDb("/sdcard/test_bulk_insert.db", &db1))
+   if (openDb("/sdcard/bulk_ins.db", &db1))
      return;
 
    displayFreeHeap();
@@ -209,4 +214,3 @@ void loop() {
    input_num();
 
 }
-
