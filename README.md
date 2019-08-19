@@ -104,6 +104,8 @@ Any Flash memory such as those available on SPIFFS or Micro SD cards have limita
 
 ## Compression with Shox96
 
+(Shox96 is deprecated and Unishox explained below will be supported in future).
+
 This implementation of `sqlite3` includes two functions `shox96_0_2c()` and `shox96_0_2d()` for compressing and decompressing text data.
 
 Shox96 is a compression technique developed for reducing storage size of Short Strings. Details of how it works can be found [here](https://github.com/siara-cc/Shox96).
@@ -132,6 +134,24 @@ See screenshots section for output.
 - It does not work if the string has binary characters. that is, other than ASCII 32 to 126, CR, LF and Tab.
 - Dictionary based compression / decompression is not yet implemented.
 
+## Compression with Unishox
+
+This implementation also includes two functions `unishox1c()` and `unishox1d()` for compressing and decompressing text data.
+
+Unishox is a compression technique developed for reducing storage size of Short Unicode Strings. Details of how it works can be found [here](https://github.com/siara-cc/Unishox).
+
+In general it can achieve upto 40% size reduction for Short Strings.
+
+### Usage
+
+The usage is similar to that of Shox96, only in this case UTF-8 strings can be used.
+
+See screenshots section for output.
+
+### Limitations (for Unishox)
+
+- Trying to decompress any blob that was not compressed using `unishox1c()` will crash the program.
+
 ## Acknowledgements
 
 * This library was developed based on NodeMCU module developed by [Luiz Felipe Silva](https://github.com/luizfeliperj). The documentation can be found [here](https://nodemcu.readthedocs.io/en/master/en/modules/sqlite3/).
@@ -155,9 +175,9 @@ See screenshots section for output.
 
 ![](console_screenshot.png?raw=true)
 
-### Shox96 compression
+### Unishox compression
 
-![](output_shox96.png?raw=true)
+![](output_web_console.png?raw=true)
 
 ### Output of Querying StackOverflow DB through WebServer example:
 

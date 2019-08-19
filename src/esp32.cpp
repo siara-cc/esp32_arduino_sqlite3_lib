@@ -676,9 +676,61 @@ static void shox96_0_2d(sqlite3_context *context, int argc, sqlite3_value **argv
   //}
 } 
 
-int registerShox96_0_2(sqlite3 *db, const char **pzErrMsg, const struct sqlite3_api_routines *pThunk) {
+static void unishox1c(sqlite3_context *context, int argc, sqlite3_value **argv) {
+  int nIn, nOut;
+  long int nOut2;
+  const unsigned char *inBuf;
+  unsigned char *outBuf;
+	unsigned char vInt[9];
+	int vIntLen;
+
+  assert( argc==1 );
+  nIn = sqlite3_value_bytes(argv[0]);
+  inBuf = (unsigned char *) sqlite3_value_blob(argv[0]);
+  nOut = 13 + nIn + (nIn+999)/1000;
+  vIntLen = encode_unsigned_varint(vInt, (uint64_t) nIn);
+
+  outBuf = (unsigned char *) malloc( nOut+vIntLen );
+	memcpy(outBuf, vInt, vIntLen);
+  nOut2 = shox96_0_2_compress((const char *) inBuf, nIn, (char *) &outBuf[vIntLen], NULL);
+  sqlite3_result_blob(context, outBuf, nOut2+vIntLen, free);
+}
+
+static void unishox1d(sqlite3_context *context, int argc, sqlite3_value **argv) {
+  unsigned int nIn, nOut, rc;
+  const unsigned char *inBuf;
+  unsigned char *outBuf;
+  long int nOut2;
+  uint64_t inBufLen64;
+	int vIntLen;
+
+  assert( argc==1 );
+
+  if (sqlite3_value_type(argv[0]) != SQLITE_BLOB)
+	  return;
+
+  nIn = sqlite3_value_bytes(argv[0]);
+  if (nIn < 2){
+    return;
+  }
+  inBuf = (unsigned char *) sqlite3_value_blob(argv[0]);
+  inBufLen64 = decode_unsigned_varint(inBuf, vIntLen);
+	nOut = (unsigned int) inBufLen64;
+  outBuf = (unsigned char *) malloc( nOut );
+  //nOut2 = (long int)nOut;
+  nOut2 = shox96_0_2_decompress((const char *) (inBuf + vIntLen), nIn - vIntLen, (char *) outBuf, NULL);
+  //if( rc!=Z_OK ){
+  //  free(outBuf);
+  //}else{
+    sqlite3_result_blob(context, outBuf, nOut2, free);
+  //}
+} 
+
+int registerFunctions(sqlite3 *db, const char **pzErrMsg, const struct sqlite3_api_routines *pThunk) {
   sqlite3_create_function(db, "shox96_0_2c", 1, SQLITE_UTF8 | SQLITE_DETERMINISTIC, 0, shox96_0_2c, 0, 0);
   sqlite3_create_function(db, "shox96_0_2d", 1, SQLITE_UTF8 | SQLITE_DETERMINISTIC, 0, shox96_0_2d, 0, 0);
+  sqlite3_create_function(db, "unishox1c", 1, SQLITE_UTF8 | SQLITE_DETERMINISTIC, 0, unishox1c, 0, 0);
+  sqlite3_create_function(db, "unishox1d", 1, SQLITE_UTF8 | SQLITE_DETERMINISTIC, 0, unishox1d, 0, 0);
   return SQLITE_OK;
 }
 
@@ -689,7 +741,7 @@ void errorLogCallback(void *pArg, int iErrCode, const char *zMsg) {
 int sqlite3_os_init(void){
   //sqlite3_config(SQLITE_CONFIG_LOG, errorLogCallback, NULL);
   sqlite3_vfs_register(sqlite3_ESP32vfs(), 1);
-  sqlite3_auto_extension((void (*)())registerShox96_0_2);
+  sqlite3_auto_extension((void (*)())registerFunctions);
   return SQLITE_OK;
 }
 
