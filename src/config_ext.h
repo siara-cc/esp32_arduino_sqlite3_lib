@@ -87,3 +87,4 @@
 /* #define SQLITE_OMIT_DATETIME_FUNCS        1 */
 /* #define SQLITE_OMIT_FLOATING_POINT        1 */
 #define SQLITE_COUNTOFVIEW_OPTIMIZATION      0
+#define SQLITE_DQS                           0
