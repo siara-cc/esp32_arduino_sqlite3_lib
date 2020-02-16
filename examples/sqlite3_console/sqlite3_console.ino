@@ -120,6 +120,7 @@ int input_string(char *str, int max_len) {
   }
   str[ctr] = 0;
   Serial.println(str);
+  return ctr;
 }
 
 int input_num() {
