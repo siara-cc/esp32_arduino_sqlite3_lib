@@ -17,6 +17,12 @@
  *
  */
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-value"
+#pragma GCC diagnostic ignored "-Wunused-label"
+#pragma GCC diagnostic ignored "-Wchar-subscripts"
+#pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
+
 #define UNISHOX_VERSION "1.0"
 
 #ifdef _MSC_VER
@@ -1168,3 +1174,4 @@ printf("\nElapsed: %0.3lf ms\n", timedifference(tStart, getTimeVal()));
 return 0;
 
 }
+#pragma GCC diagnostic pop

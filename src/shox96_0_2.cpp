@@ -16,6 +16,12 @@
  * @author Arundale R.
  *
  */
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-value"
+#pragma GCC diagnostic ignored "-Wunused-label"
+#pragma GCC diagnostic ignored "-Wchar-subscripts"
+#pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
+
 #include <time.h>
 #include <stdio.h>
 #include <string.h>
@@ -492,3 +498,4 @@ int shox96_0_2_decompress(const char *in, int len, char *out, struct lnk_lst *pr
   return ol;
 
 }
+#pragma GCC diagnostic pop
