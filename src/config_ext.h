@@ -15,8 +15,6 @@
 #define SQLITE_DEFAULT_CACHE_SIZE           -1
 #define SQLITE_DEFAULT_MEMSTATUS             0
 #define SQLITE_DEFAULT_MMAP_SIZE             0
-
-/*
 #define SQLITE_CORE                          1
 #define SQLITE_SYSTEM_MALLOC                 1
 #define SQLITE_THREADSAFE                    0
@@ -32,6 +30,8 @@
 #define SQLITE_MAX_DEFAULT_PAGE_SIZE     32768
 #define SQLITE_POWERSAFE_OVERWRITE           1
 #define SQLITE_MAX_EXPR_DEPTH                0
+
+/*
 #undef SQLITE_OMIT_ALTERTABLE
 #undef SQLITE_OMIT_ANALYZE
 #undef SQLITE_OMIT_ATTACH
