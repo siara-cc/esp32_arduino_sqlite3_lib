@@ -1,5 +1,7 @@
 # Sqlite3 Arduino library for ESP32
 
+Note: This is a general purpose library based on the Sqlite codebase.  For logging sensor data into database please use [Sqlite Micro Logger](https://github.com/siara-cc/sqlite_micro_logger_arduino), which is faster and memory efficient.
+
 This library enables access to SQLite database files from SPIFFS or SD Cards through ESP32 SoC.  Given below is a picture of a board that has a ready-made Micro SD slot (using SDMMC 4 bit mode - see example sqlite3_sdmmc):
 
 ![](ESP_WROOM_32_breakout.png?raw=true)
