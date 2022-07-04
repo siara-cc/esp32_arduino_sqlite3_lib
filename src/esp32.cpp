@@ -300,7 +300,7 @@ static int ESP32FileSize(sqlite3_file *pFile, sqlite_int64 *pSize){
 
 	struct stat st;
 	int fno = fileno(p->fp);
-	if (fno == -1)
+	if (fno < 0)
 		return SQLITE_IOERR_FSTAT;
 	if (fstat(fno, &st))
 		return SQLITE_IOERR_FSTAT;
@@ -433,7 +433,7 @@ static int ESP32Open(
     memset(&st, 0, sizeof(struct stat));
     int rc = stat( zName, &st );
     //Serial.println(zName);
-		if (rc == -1) {
+		if (rc < 0) {
       strcpy(mode, "w+");
       //int fd = open(zName, (O_CREAT | O_RDWR | O_EXCL), S_IRUSR | S_IWUSR);
       //close(fd);
