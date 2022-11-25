@@ -199,7 +199,7 @@ void setup(void) {
     }
     int step_res;
     if (sql.length() > 0) {
-      rc = sqlite3_prepare_v2(db1, sql.c_str(), 1000, &res, &tail);
+      rc = sqlite3_prepare_v2(db1, sql.c_str(), -1, &res, &tail);
       if (rc != SQLITE_OK) {
         String resp = F("Failed to fetch data: ");
         resp += sqlite3_errmsg(db1);
@@ -251,7 +251,7 @@ void setup(void) {
         sql += server.arg("so_loc_count");
       }
     }
-    rc = sqlite3_prepare_v2(db1, sql.c_str(), 1000, &res, &tail);
+    rc = sqlite3_prepare_v2(db1, sql.c_str(), -1, &res, &tail);
     if (rc != SQLITE_OK) {
       String resp = F("Failed to fetch data: ");
       resp += sqlite3_errmsg(db1);
