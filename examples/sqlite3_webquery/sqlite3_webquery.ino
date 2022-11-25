@@ -167,7 +167,7 @@ void setup ( void ) {
       sql += "' and '";
       sql += server.arg("to");
       sql += "'";
-      rc = sqlite3_prepare_v2(db1, sql.c_str(), 1000, &res, &tail);
+      rc = sqlite3_prepare_v2(db1, sql.c_str(), -1, &res, &tail);
       if (rc != SQLITE_OK) {
           String resp = "Failed to fetch data: ";
           resp += sqlite3_errmsg(db1);
@@ -196,7 +196,7 @@ void setup ( void ) {
       sql += "' and '";
       sql += server.arg("to");
       sql += "'";
-      rc = sqlite3_prepare_v2(db1, sql.c_str(), 1000, &res, &tail);
+      rc = sqlite3_prepare_v2(db1, sql.c_str(), -1, &res, &tail);
       if (rc != SQLITE_OK) {
           String resp = "Failed to fetch data: ";
           resp += sqlite3_errmsg(db1);
