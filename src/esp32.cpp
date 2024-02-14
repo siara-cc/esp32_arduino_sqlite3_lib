@@ -479,7 +479,7 @@ static int ESP32Open(
     p->fp = fopen(zName, mode);
   }
 
-  if( p->fp<=0){
+  if( p->fp == NULL){
     if (aBuf)
       sqlite3_free(aBuf);
     //Serial.println("Can't open");
